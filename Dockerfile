@@ -59,10 +59,14 @@ mv /docker-rtir/RT_SiteConfig.pm RT_SiteConfig.pm && \
 mv /docker-rtir/rt.conf /etc/apache2/sites-available/rt.conf && \
 mv /docker-rtir/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
+COPY rt.conf /etc/apache2/sites-available/rt.conf
+
 # Turn on ssl
-RUN a2enmod ssl fcgid && \
+RUN a2enmod fcgid && \
  a2ensite rt && \
- apachectl configtest 
+ apachectl configtest
+
+RUN a2dissite 000-default
 
 WORKDIR /RT-IR-4.0.1
 
